@@ -1,8 +1,12 @@
-# base image 를 ubuntu 18.04 로 설정합니다.(도커허브 확인)
-FROM ubuntu:18.04
+# syntax=docker/dockerfile:1
 
-# apt-get update 명령을 실행합니다.
-RUN apt-get update
+FROM python:3.8-slim-buster
 
-# DOCKER CONTAINER 가 시작될 때, "Hello" 를 출력합니다.
-CMD ["echo", "Hello"]
+WORKDIR /app
+
+COPY requirements.txt requirements.txt
+RUN pip3 install -r requirements.txt
+
+COPY . .
+
+CMD [ "python3", "-m" , "flask", "run", "--host=0.0.0.0"]
